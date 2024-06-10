@@ -2,9 +2,8 @@
 import React from 'react';
 import {QueryClient, QueryClientProvider, useQuery} from 'react-query';
 import {getAllProducts} from '../services/productsService';
-import Link from "next/link";
 
-interface Product {
+interface ProductList {
     id: number;
     title: string;
     price: number;
@@ -13,7 +12,7 @@ interface Product {
 const queryClient = new QueryClient();
 
 function Product() {
-    const {isLoading, error, data} = useQuery<Product[]>('products', getAllProducts);
+    const {isLoading, error, data} = useQuery<ProductList[]>('products', getAllProducts);
 
     if (isLoading) return <div className="min-h-screen flex items-center justify-center bg-gray-100">Loading...</div>;
     if (error) return <div className="min-h-screen flex items-center justify-center bg-gray-100">Error fetching
@@ -24,7 +23,6 @@ function Product() {
     return (
         <div className="min-h-screen bg-gray-100">
             <h1 className="text-3xl font-bold text-center py-4">All Products</h1>
-            <Link href="/create"><h1 className="text-3xl font-bold text-center py-4">Create</h1></Link>
             <div className="max-w-md mx-auto">
                 {data.map((product) => (
                     <div key={product.id} className="bg-white shadow-md rounded-lg mb-4 p-4">
@@ -37,7 +35,7 @@ function Product() {
     );
 }
 
-export function App() {
+export function ProductList() {
     return (
         <QueryClientProvider client={queryClient}>
             <Product/>
